@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Data
@@ -26,4 +27,8 @@ public class CollectionBox {
             joinColumns = @JoinColumn(name = "box_id")
     )
     private List<Money> currencies = new ArrayList<>();
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "fundraising_event_id")
+    private FundraisingEvent fundraisingEvent;
 }
