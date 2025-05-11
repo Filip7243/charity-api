@@ -18,6 +18,7 @@
 
     <modules>
         <module>charity-service</module>
+        <module>currency-service</module>
     </modules>
 
     <properties>
