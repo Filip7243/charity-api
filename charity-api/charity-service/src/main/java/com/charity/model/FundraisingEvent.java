@@ -21,4 +21,9 @@ public class FundraisingEvent {
     private String name;
 
     private Money amount;
+
+    public FundraisingEvent(String name, Money amount) {
+        this.name = name;
+        this.amount = amount;
+    }
 }

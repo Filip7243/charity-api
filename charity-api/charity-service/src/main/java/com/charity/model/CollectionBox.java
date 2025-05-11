@@ -23,12 +23,17 @@ public class CollectionBox {
 
     @ElementCollection
     @CollectionTable(
-            name = "box_currencies",
+            name = "box_moneys",
             joinColumns = @JoinColumn(name = "box_id")
     )
-    private List<Money> currencies = new ArrayList<>();
+    private List<Money> moneys = new ArrayList<>();
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "fundraising_event_id")
     private FundraisingEvent fundraisingEvent;
+
+    public CollectionBox(List<Money> moneys, FundraisingEvent fundraisingEvent) {
+        this.moneys = moneys;
+        this.fundraisingEvent = fundraisingEvent;
+    }
 }
