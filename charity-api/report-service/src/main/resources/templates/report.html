@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 5px;
+        }
+    </style>
+    <title>Fundraising report</title>
+</head>
+<body>
+<h2>Report</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Num Of Boxes</th>
+        <th>Amount</th>
+        <th>Currency</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="row : ${rows}">
+        <td th:text="${row.name}"></td>
+        <td th:text="${row.numOfBoxes}"></td>
+        <td th:text="${row.amount}"></td>
+        <td th:text="${row.currencyCode}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
