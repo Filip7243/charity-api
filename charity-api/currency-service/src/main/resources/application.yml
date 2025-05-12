@@ -1,0 +1,9 @@
+spring:
+  cache:
+    type: caffeine
+    cache-names: exchangeRates
+    caffeine:
+      spec: maximumSize=1000,expireAfterWrite=1h
+
+server:
+  port: 8082
