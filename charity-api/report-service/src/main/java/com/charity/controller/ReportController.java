@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_PDF_VALUE;
 
 @RestController
@@ -28,7 +28,7 @@ public class ReportController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentDispositionFormData("attachment", "report.pdf");
 
-        return ResponseEntity.status(CREATED)
+        return ResponseEntity.status(OK)  // maybe should be 201 - CREATED
                 .headers(headers)
                 .body(pdf);
     }

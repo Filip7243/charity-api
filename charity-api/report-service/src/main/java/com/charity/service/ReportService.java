@@ -1,5 +1,7 @@
 package com.charity.service;
 
+import com.charity.exception.InvalidDataException;
+import com.charity.exception.PdfGenerationException;
 import com.charity.model.ReportRow;
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +24,8 @@ public class ReportService {
         log.info("Generating PDF report with {} rows", rows.size());
 
         if (rows.isEmpty()) {
-            log.warn("No rows provided for PDF generation");
-            throw new IllegalArgumentException("No rows provided");
+            log.warn("No data provided for PDF generation");
+            throw new InvalidDataException("No data provided");
         }
 
         Context context = new Context();
@@ -42,7 +44,7 @@ public class ReportService {
             return os.toByteArray();
         } catch (Exception e) {
             log.error(e.getMessage());
-            throw new RuntimeException("PDF generation failed", e);
+            throw new PdfGenerationException("PDF generation failed");
         }
     }
 }
