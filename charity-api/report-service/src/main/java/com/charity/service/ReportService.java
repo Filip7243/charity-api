@@ -23,7 +23,7 @@ public class ReportService {
 
         if (rows.isEmpty()) {
             log.warn("No rows provided for PDF generation");
-            return new byte[0];
+            throw new IllegalArgumentException("No rows provided");
         }
 
         Context context = new Context();
