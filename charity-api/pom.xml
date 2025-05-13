@@ -20,6 +20,7 @@
         <module>charity-service</module>
         <module>currency-service</module>
         <module>report-service</module>
+        <module>discovery-server</module>
     </modules>
 
     <properties>
