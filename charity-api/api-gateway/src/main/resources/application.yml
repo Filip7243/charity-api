@@ -1,0 +1,35 @@
+server:
+  port: 8080
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      mvc:
+        routes:
+          - id: charity-service
+            uri: lb://charity-service
+            predicates:
+              - Path=/api/charities/**
+            filters:
+              - RewritePath=/api/charities/(?<segment>.*), /${segment}
+          - id: currency-service
+            uri: lb://currency-service
+            predicates:
+              - Path=/api/currencies/**
+            filters:
+              - RewritePath=/api/currencies/(?<segment>.*), /${segment}
+          - id: report-service
+            uri: lb://report-service
+            predicates:
+              - Path=/api/reports/**
+            filters:
+              - RewritePath=/api/reports/(?<segment>.*), /${segment}

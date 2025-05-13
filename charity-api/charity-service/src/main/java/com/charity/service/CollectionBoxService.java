@@ -1,11 +1,11 @@
 package com.charity.service;
 
+import com.charity.client.CurrencyServiceClient;
 import com.charity.dto.AddMoneyRequest;
 import com.charity.dto.CollectionBoxDto;
 import com.charity.dto.CreateCollectionBoxRequest;
 import com.charity.model.CollectionBox;
 import com.charity.model.CurrencyCode;
-import com.charity.model.FundraisingEvent;
 import com.charity.model.Money;
 import com.charity.repository.CollectionBoxRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,13 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.math.BigDecimal.ZERO;
-import static java.math.BigDecimal.valueOf;
 
 @Slf4j
 @Service
@@ -28,6 +26,7 @@ public class CollectionBoxService {
 
     private final CollectionBoxRepository collectionBoxRepository;
     private final FundraisingEventService fundraisingEventService;
+    private final CurrencyServiceClient currencyServiceClient;
 
     @Transactional
     public void createCollectionBox(CreateCollectionBoxRequest request) {
@@ -183,19 +182,21 @@ public class CollectionBoxService {
 
         var fundraisingEvent = fundraisingEventService.getEventById(eventId);
 
-        // TODO: get the currency from API
-        CurrencyCode eventCurrencyCode = fundraisingEvent.getAmount().currencyCode();
-        Money addedMoney = fundraisingEvent.getAmount()
-                .add(valueOf(moneyInBox)
-                        .multiply(valueOf(4.12)));
+        List<String> toCodes = collectionBox.getMoneys()
+                .stream()
+                .map(money -> money.currencyCode().name())
+                .distinct()
+                .toList();
 
-        fundraisingEvent.setAmount(addedMoney);
+        Money total = currencyServiceClient.convertAndSumAllBoxes(fundraisingEvent, boxMoneys, toCodes);
+        fundraisingEvent.setAmount(total);
+
         List<Money> clearedAmount = boxMoneys.stream()
                 .map(money -> money.subtract(money))
                 .toList();
         collectionBox.setMoneys(clearedAmount);
 
-        log.info("Money {} - transferred from box with ID: {} to event with ID: {}", addedMoney.amount(), boxId, eventId);
+        log.info("Money {} - transferred from box with ID: {} to event with ID: {}", total.amount(), boxId, eventId);
 
         return mapToDto(collectionBox);
     }

@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CollectionBoxRepository extends JpaRepository<CollectionBox, Long> {
 
+    Integer countByFundraisingEventId(Long fundraisingEventId);
 }

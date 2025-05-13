@@ -1,8 +1,8 @@
 package com.charity.service;
 
-import com.charity.exception.InvalidDataException;
+import com.charity.client.CharityServiceClient;
 import com.charity.exception.PdfGenerationException;
-import com.charity.model.ReportRow;
+import com.charity.model.FundraisingEventDto;
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,16 +19,15 @@ import java.util.List;
 public class ReportService {
 
     private final TemplateEngine templateEngine;
+    private final CharityServiceClient charityServiceClient;
 
-    public byte[] generatePdf(List<ReportRow> rows) {
-        log.info("Generating PDF report with {} rows", rows.size());
+    public byte[] generatePdf() {
+        FundraisingEventDto[] allFundraisingEvents = charityServiceClient.getAllFundraisingEvents();
 
-        if (rows.isEmpty()) {
-            log.warn("No data provided for PDF generation");
-            throw new InvalidDataException("No data provided");
-        }
+        log.info("Generating PDF report with {} rows", allFundraisingEvents.length);
 
         Context context = new Context();
+        List<FundraisingEventDto> rows = List.of(allFundraisingEvents);
         context.setVariable("rows", rows);
         String html = templateEngine.process("report", context);
 
