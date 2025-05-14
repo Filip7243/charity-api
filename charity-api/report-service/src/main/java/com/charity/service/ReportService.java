@@ -26,12 +26,12 @@ public class ReportService {
 
         log.info("Generating PDF report with {} rows", allFundraisingEvents.length);
 
-        Context context = new Context();
-        List<FundraisingEventDto> rows = List.of(allFundraisingEvents);
-        context.setVariable("rows", rows);
-        String html = templateEngine.process("report", context);
-
         try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
+            Context context = new Context();
+            List<FundraisingEventDto> rows = List.of(allFundraisingEvents);
+            context.setVariable("rows", rows);
+            String html = templateEngine.process("report", context);
+
             PdfRendererBuilder builder = new PdfRendererBuilder();
             builder.useFastMode();
             builder.withHtmlContent(html, null);
