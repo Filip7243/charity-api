@@ -13,23 +13,18 @@ spring:
 
   cloud:
     gateway:
-      mvc:
-        routes:
-          - id: charity-service
-            uri: lb://charity-service
-            predicates:
-              - Path=/api/charities/**
-            filters:
-              - RewritePath=/api/charities/(?<segment>.*), /${segment}
-          - id: currency-service
-            uri: lb://currency-service
-            predicates:
-              - Path=/api/currencies/**
-            filters:
-              - RewritePath=/api/currencies/(?<segment>.*), /${segment}
-          - id: report-service
-            uri: lb://report-service
-            predicates:
-              - Path=/api/reports/**
-            filters:
-              - RewritePath=/api/reports/(?<segment>.*), /${segment}
+      routes:
+        - id: charity-boxes
+          uri: lb://charity-service
+          predicates:
+            - Path=/v1/boxes/**
+
+        - id: charity-events
+          uri: lb://charity-service
+          predicates:
+            - Path=/v1/events/**
+
+        - id: report-service
+          uri: lb://report-service
+          predicates:
+            - Path=/v1/reports/**
