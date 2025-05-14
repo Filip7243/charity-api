@@ -1,10 +1,12 @@
 package com.charity.client;
 
 import com.charity.dto.ExchangeRateResponse;
+import com.charity.exception.InvalidDataException;
 import com.charity.model.CurrencyCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
@@ -25,7 +27,7 @@ public class FrankfurterClient implements Client {
     public ExchangeRateResponse getExchangeRates(String from, List<CurrencyCode> to) {
         if (to.isEmpty()) {
             log.error("No valid currency codes provided");
-            throw new IllegalArgumentException("No valid currency codes provided");
+            throw new InvalidDataException("No valid currency codes provided");
         }
 
         List<String> codes = to.stream()
@@ -35,19 +37,17 @@ public class FrankfurterClient implements Client {
         String toParam = String.join(",", codes);
         String url = String.format("%s?base=%s&symbols=%s", BASE_URL, from, toParam);
 
-        System.out.println("Fetching exchange rates from URL: " + url);
-
         try {
             ExchangeRateResponse response = restTemplate.getForObject(url, ExchangeRateResponse.class);
             if (response == null || response.rates() == null || response.rates().isEmpty()) {
                 log.error("Response is null or empty");
-                throw new IllegalStateException("Failed to fetch exchange rates");
+                throw new InvalidDataException("Failed to fetch exchange rates");
             }
 
             return response;
         } catch (Exception e) {
             log.error("Error fetching exchange rates from Frankfurter API: {}", e.getMessage());
-            throw new RuntimeException("Failed to fetch exchange rates from Frankfurter API", e);
+            throw new ResourceAccessException("Failed to fetch exchange rates from Frankfurter API");
         }
     }
 }
