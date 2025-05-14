@@ -43,7 +43,7 @@ public class CurrencyServiceClient {
         String uri = buildCurrencyUri(targetCurrency.name(), toCodes);
         Map<String, BigDecimal> rates = webClientBuilder.build()
                 .get()
-                .uri("lb://currency-service/v1/currencies/{currency}?to=PLN", targetCurrency)
+                .uri(uri)
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<Map<String, BigDecimal>>() {
                 })

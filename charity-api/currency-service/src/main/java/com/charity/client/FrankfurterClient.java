@@ -7,7 +7,11 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
+
+import static java.time.LocalTime.now;
 
 @Slf4j
 @Component
@@ -19,11 +23,19 @@ public class FrankfurterClient implements Client {
     @Override
     @Cacheable(value = "exchangeRates", key = "#from + ':' + #to")
     public ExchangeRateResponse getExchangeRates(String from, List<CurrencyCode> to) {
+        if (to.isEmpty()) {
+            log.error("No valid currency codes provided");
+            throw new IllegalArgumentException("No valid currency codes provided");
+        }
+
         List<String> codes = to.stream()
                 .map(code -> code.name().toUpperCase())
                 .toList();
+
         String toParam = String.join(",", codes);
         String url = String.format("%s?base=%s&symbols=%s", BASE_URL, from, toParam);
+
+        System.out.println("Fetching exchange rates from URL: " + url);
 
         try {
             ExchangeRateResponse response = restTemplate.getForObject(url, ExchangeRateResponse.class);

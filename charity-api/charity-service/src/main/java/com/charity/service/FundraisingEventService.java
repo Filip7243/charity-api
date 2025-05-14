@@ -2,6 +2,7 @@ package com.charity.service;
 
 import com.charity.dto.CreateFundraisingEventRequest;
 import com.charity.dto.FundraisingEventDto;
+import com.charity.exception.ResourceNotFound;
 import com.charity.model.FundraisingEvent;
 import com.charity.model.Money;
 import com.charity.repository.CollectionBoxRepository;
@@ -42,7 +43,7 @@ public class FundraisingEventService {
         return fundraisingEventRepository.findById(id)
                 .orElseThrow(() -> {
                     log.error("Fundraising event with ID {} not found", id);
-                    return new IllegalArgumentException("Fundraising event not found");
+                    return new ResourceNotFound("Fundraising event not found");
                 });
     }
 

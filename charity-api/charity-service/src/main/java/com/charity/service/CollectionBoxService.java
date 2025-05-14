@@ -4,6 +4,7 @@ import com.charity.client.CurrencyServiceClient;
 import com.charity.dto.AddMoneyRequest;
 import com.charity.dto.CollectionBoxDto;
 import com.charity.dto.CreateCollectionBoxRequest;
+import com.charity.exception.*;
 import com.charity.model.CollectionBox;
 import com.charity.model.CurrencyCode;
 import com.charity.model.Money;
@@ -61,7 +62,7 @@ public class CollectionBoxService {
         var box = collectionBoxRepository.findById(id)
                 .orElseThrow(() -> {
                     log.error("Collection box with ID {} not found", id);
-                    return new IllegalArgumentException("Collection box not found");
+                    return new ResourceNotFound("Collection box not found");
                 });
 
         return mapToDto(box);
@@ -73,7 +74,7 @@ public class CollectionBoxService {
 
         if (!collectionBoxRepository.existsById(id)) {
             log.error("Collection box with ID {} not found - cannot delete", id);
-            throw new IllegalArgumentException("Collection box not found");
+            throw new ResourceNotFound("Collection box not found");
         }
 
         collectionBoxRepository.deleteById(id);
@@ -86,12 +87,12 @@ public class CollectionBoxService {
         var collectionBox = collectionBoxRepository.findById(boxId)
                 .orElseThrow(() -> {
                     log.error("Collection box with ID {} not found - while assigning", boxId);
-                    return new IllegalArgumentException("Collection box not found");
+                    return new ResourceNotFound("Collection box not found");
                 });
 
         if (collectionBox.getFundraisingEvent() != null) {
             log.error("Collection box with ID {} is already assigned to an event", boxId);
-            throw new IllegalArgumentException("Collection box is already assigned to an event");
+            throw new BoxAlreadyAssignedException("Collection box is already assigned to an event");
         }
 
         double moneyInBox = collectionBox.getMoneys()
@@ -100,7 +101,7 @@ public class CollectionBoxService {
                 .sum();
         if (moneyInBox > 0) {
             log.error("Collection box with ID {} is not empty", boxId);
-            throw new IllegalArgumentException("Collection box is not empty");
+            throw new BoxNotEmptyException("Collection box is not empty");
         }
 
         var fundraisingEvent = fundraisingEventService.getEventById(eventId);
@@ -120,7 +121,7 @@ public class CollectionBoxService {
         var collectionBox = collectionBoxRepository.findById(request.boxId())
                 .orElseThrow(() -> {
                     log.error("Collection box with ID {} not found - while adding money", request.boxId());
-                    return new IllegalArgumentException("Collection box not found");
+                    return new ResourceNotFound("Collection box not found");
                 });
 
         Money money = new Money(request.amount(), request.code());
@@ -129,9 +130,9 @@ public class CollectionBoxService {
                 .filter(m -> m.currencyCode().equals(request.code()))
                 .findFirst()
                 .orElseThrow(() -> {
-                    ;
-                    log.error("Collection box with ID {} does not contain currency {}", request.boxId(), request.code());
-                    return new IllegalArgumentException("Collection box does not contain this currency");
+                    log.error("Collection box with ID {} does not contain currency {}",
+                            request.boxId(), request.code());
+                    return new IllegalCurrencyCodeException("Collection box does not contain this currency");
                 });
 
         Money updatedMoney = currentBoxMoney.add(money);
@@ -157,17 +158,17 @@ public class CollectionBoxService {
         var collectionBox = collectionBoxRepository.findById(boxId)
                 .orElseThrow(() -> {
                     log.error("Collection box with ID {} not found - while transferring money", boxId);
-                    return new IllegalArgumentException("Collection box not found");
+                    return new ResourceNotFound("Collection box not found");
                 });
 
         if (collectionBox.getFundraisingEvent() == null) {
             log.error("Collection box with ID {} is not assigned to an event", boxId);
-            throw new IllegalArgumentException("Collection box is not assigned to an event");
+            throw new BoxNotAssignedException("Collection box is not assigned to an event");
         }
 
         if (!collectionBox.getFundraisingEvent().getId().equals(eventId)) {
             log.error("Collection box with ID {} is assigned to a different event", boxId);
-            throw new IllegalArgumentException("Collection box is assigned to a different event");
+            throw new BoxAlreadyAssignedException("Collection box is assigned to a different event");
         }
 
         List<Money> boxMoneys = collectionBox.getMoneys();
@@ -177,7 +178,7 @@ public class CollectionBoxService {
                 .sum();
         if (moneyInBox <= 0) {
             log.error("Collection box with ID {} is empty", boxId);
-            throw new IllegalArgumentException("Collection box is empty");
+            throw new EmptyBoxException("Collection box is empty");
         }
 
         var fundraisingEvent = fundraisingEventService.getEventById(eventId);
