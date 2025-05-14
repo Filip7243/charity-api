@@ -1,6 +1,5 @@
 package com.charity.exception;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -20,12 +19,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(PdfGenerationException.class)
     public ResponseEntity<Object> handleInternalServerError(Exception exception, WebRequest request) {
-        return new ResponseEntity<>(getExceptionDetails(exception, request), INTERNAL_SERVER_ERROR  );
-    }
-
-    //    @ExceptionHandler({UsernameNotFoundException.class, EntityNotFoundException.class})
-    public ResponseEntity<Object> handleNotFoundException(Exception exception, WebRequest request) {
-        return new ResponseEntity<>(getExceptionDetails(exception, request), NOT_FOUND);
+        return new ResponseEntity<>(getExceptionDetails(exception, request), INTERNAL_SERVER_ERROR);
     }
 
     public ExceptionDetails getExceptionDetails(Exception exception, WebRequest request) {
