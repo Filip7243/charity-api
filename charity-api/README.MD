@@ -10,7 +10,7 @@ Follow the steps below to start all microservices locally (without Docker).
 
 ```bash
 git clone https://github.com/Filip7243/charity-api
-cd charity-api
+cd charity-api/charity-api
 ```
 
 ### 2. Build all modules
