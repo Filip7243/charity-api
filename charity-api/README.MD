@@ -288,4 +288,28 @@ Generates a PDF report summarizing the current fundraising data and returns it a
 **Usage example (with `curl`):**
 
 ```bash
-curl -X GET http://localhost:8080/report-service/v1/reports/pdf -o report.pdf
+curl -X GET http://localhost:8080/v1/reports/pdf -o report.pdf
+```
+You can also test the endpoint using Postman or any other API testing tool.
+In the ```./postman``` directory, you can find a collection with all endpoints in JSON format,
+import and have fun :)
+
+## 🚀 Architecture
+This application is based on a microservices architecture, where each domain-specific functionality is implemented as a separate service.
+
+### Key Components:
+- **API GATEWAY**: Acts as a single entry point for all client requests. It listens on port 8080 and routes the requests to the appropriate microservice.
+- **Eureka Discovery Server**: All microservices register themselves with Eureka, which serves as a service registry. This enables dynamic discovery of services without hardcoding their locations.
+- **Load Balancing**: Services communicate with each other using REST over HTTP, leveraging load-balanced URIs (lb://service-name) through Spring Cloud LoadBalancer.
+
+![Architecture Diagram](figures/architecture.png)
+
+## 🗃️ Database Design
+The application uses a relational database schema with the following key entities:
+- ```CollectionBox```: Represents a physical collection box used during fundraising events. It holds a list of Money entries and is linked to a single FundraisingEvent.
+
+- ```FundraisingEvent```: Represents an event during which funds are collected. It stores the name of the event and the total amount collected (as a Money value).
+
+- ```Money```: An embeddable value object that represents a monetary amount and its currency code. It is used both inside the CollectionBox (as a collection of embedded values) and in FundraisingEvent (as a single embedded value).
+
+![ERD Diagram](figures/erd.png)
