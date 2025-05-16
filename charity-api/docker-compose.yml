@@ -1,0 +1,55 @@
+version: '3.8'
+services:
+  discovery-server:
+    build: ./discovery-server
+    ports:
+      - "8761:8761"
+    networks:
+      - charity-net
+    healthcheck:
+      test: [ "CMD", "wget", "--spider", "-q", "http://localhost:8761/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+    networks:
+      - charity-net
+
+  charity-service:
+    build: ./charity-service
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+    networks:
+      - charity-net
+    volumes:
+      - ./db:/app/db
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  currency-service:
+    build: ./currency-service
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+    networks:
+      - charity-net
+
+  report-service:
+    build: ./report-service
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+    networks:
+      - charity-net
+
+networks:
+  charity-net:
+    driver: bridge

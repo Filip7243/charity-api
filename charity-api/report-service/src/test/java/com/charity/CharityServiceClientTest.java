@@ -37,7 +37,7 @@ public class CharityServiceClientTest {
     @InjectMocks
     private CharityServiceClient charityServiceClient;
 
-
+    // Other services must run
     @Test
     public void shouldReturnEvents() {
         var e1 = new FundraisingEventDto(
@@ -60,6 +60,7 @@ public class CharityServiceClientTest {
         assert result[0].name().equals("Event_1");
     }
 
+    // Other services must run
     @Test
     public void shouldThrowExceptionWhenEventsAreNull() {
         FundraisingEventDto[] empty = {};

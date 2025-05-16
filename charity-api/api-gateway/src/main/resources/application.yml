@@ -6,7 +6,7 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://discovery-server:8761/eureka/
 spring:
   application:
     name: api-gateway
@@ -23,6 +23,13 @@ spring:
           uri: lb://charity-service
           predicates:
             - Path=/v1/events/**
+
+        - id: charity-db
+          uri: lb://charity-service
+          predicates:
+            - Path=/h2-console/**
+          filters:
+            - RewritePath=/h2-console/(?<path>.*), /h2-console/${path}
 
         - id: report-service
           uri: lb://report-service

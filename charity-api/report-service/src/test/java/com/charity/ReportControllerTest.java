@@ -24,6 +24,7 @@ public class ReportControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    // Other services must run
     @Test
     void shouldGeneratePdf() throws Exception {
         mockMvc.perform(get("/v1/reports/pdf"))
