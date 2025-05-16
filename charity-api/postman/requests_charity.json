@@ -1,0 +1,283 @@
+{
+	"info": {
+		"_postman_id": "a236eed8-e73a-496e-904e-639dbc282f67",
+		"name": "charity-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "35148249"
+	},
+	"item": [
+		{
+			"name": "charity-service",
+			"item": [
+				{
+					"name": "createFundraisingEvent",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"My_Event\",\r\n    \"code\": \"PLN\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/v1/events",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createCollectionBox",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"currencyCodes\": [\r\n        \"USD\", \"PLN\"\r\n    ],\r\n    \"fundraisingEventId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/v1/boxes",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"boxes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCollectionBoxes",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v1/boxes",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"boxes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCollectionBoxById",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v1/boxes/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"boxes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteCollectionBox",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v1/boxes/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"boxes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "assignBoxToEvent",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v1/boxes/assign/1/events/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"boxes",
+								"assign",
+								"1",
+								"events",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addMoneyToBox",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"boxId\": 2,\r\n    \"amount\": 1,\r\n    \"code\": \"USD\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/v1/boxes/add-money",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"boxes",
+								"add-money"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "transferMoneyToFundraisingEvent",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v1/boxes/1/transfer/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"boxes",
+								"1",
+								"transfer",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "currency-service",
+			"item": [
+				{
+					"name": "getExchangeRates",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:52143/v1/currencies/USD?to=EUR&to=PLN",
+							"host": [
+								"localhost"
+							],
+							"port": "52143",
+							"path": [
+								"v1",
+								"currencies",
+								"USD"
+							],
+							"query": [
+								{
+									"key": "to",
+									"value": "EUR"
+								},
+								{
+									"key": "to",
+									"value": "PLN"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "You need to check the port of the currency service if you want to test this endpoint directly from postman (endpoint from this service is used by charity-service while transfering money to event from box)"
+		},
+		{
+			"name": "report-service",
+			"item": [
+				{
+					"name": "generatePdf",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v1/reports/pdf",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"reports",
+								"pdf"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
