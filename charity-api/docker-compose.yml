@@ -21,6 +21,8 @@ services:
         condition: service_healthy
     networks:
       - charity-net
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
 
   charity-service:
     build: ./charity-service
@@ -41,6 +43,8 @@ services:
         condition: service_healthy
     networks:
       - charity-net
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
 
   report-service:
     build: ./report-service
@@ -49,6 +53,8 @@ services:
         condition: service_healthy
     networks:
       - charity-net
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
 
 networks:
   charity-net:
