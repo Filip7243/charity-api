@@ -291,7 +291,7 @@ Generates a PDF report summarizing the current fundraising data and returns it a
 ```bash
 curl -X GET http://localhost:8080/v1/reports/pdf -o report.pdf
 ```
-You can also test the endpoint using Postman or any other API testing tool.
+You can also test the endpoint using **Postman**.
 In the ```./postman``` directory, you can find a collection with all endpoints in JSON format,
 import and have fun :)
 
