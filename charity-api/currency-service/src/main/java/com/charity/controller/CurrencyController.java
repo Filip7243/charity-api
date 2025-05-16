@@ -1,6 +1,5 @@
 package com.charity.controller;
 
-import com.charity.model.CurrencyCode;
 import com.charity.service.CurrencyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +18,6 @@ public class CurrencyController {
     @GetMapping("/{from}")
     public Map<String, BigDecimal> getExchangeRates(@PathVariable String from,
                                                     @RequestParam("to") List<String> to) {
-        return currencyService.getCurrencies(from, to);
+        return currencyService.getRates(from, to);
     }
 }

@@ -2,6 +2,7 @@ package com.charity.dto;
 
 import com.charity.model.CurrencyCode;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public record CreateCollectionBoxRequest(Set<CurrencyCode> currencyCodes,

@@ -32,14 +32,14 @@ public class ReportServiceTest {
 
     @Test
     void shouldGeneratePdf() {
-        FundraisingEventDto e1 = new FundraisingEventDto(
+        var e1 = new FundraisingEventDto(
                 "Event_1",
                 1,
                 BigDecimal.ZERO,
                 CurrencyCode.EUR
         );
 
-        FundraisingEventDto e2 = new FundraisingEventDto(
+        var e2 = new FundraisingEventDto(
                 "Event_2",
                 4,
                 BigDecimal.ZERO,
@@ -58,7 +58,7 @@ public class ReportServiceTest {
 
     @Test
     void shouldThrowExceptionWhenPdfGenerationFails() {
-        FundraisingEventDto e1 = new FundraisingEventDto(
+        var e1 = new FundraisingEventDto(
                 "Event_1",
                 1,
                 BigDecimal.ZERO,

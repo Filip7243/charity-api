@@ -18,7 +18,7 @@ public class CurrencyService {
 
     private final Client client;
 
-    public Map<String, BigDecimal> getCurrencies(String from, List<String> to) {
+    public Map<String, BigDecimal> getRates(String from, List<String> to) {
         List<CurrencyCode> codes = to.stream()
                 .map(CurrencyCode::convertTo)
                 .toList();

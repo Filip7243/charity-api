@@ -23,16 +23,16 @@ public class CharityServiceClientTest {
     private WebClient.Builder webClientBuilder;
 
     @Mock
-    private WebClient webClient; // Mockuj WebClient
+    private WebClient webClient;
 
     @Mock
-    private WebClient.RequestHeadersUriSpec requestHeadersUriSpec; // Mockuj RequestHeadersUriSpec
+    private WebClient.RequestHeadersUriSpec requestHeadersUriSpec;
 
     @Mock
-    private WebClient.RequestHeadersSpec requestHeadersSpec; // Mockuj RequestHeadersSpec
+    private WebClient.RequestHeadersSpec requestHeadersSpec;
 
     @Mock
-    private WebClient.ResponseSpec responseSpec; // Mockuj ResponseSpec
+    private WebClient.ResponseSpec responseSpec;
 
     @InjectMocks
     private CharityServiceClient charityServiceClient;
@@ -40,7 +40,7 @@ public class CharityServiceClientTest {
 
     @Test
     public void shouldReturnEvents() {
-        FundraisingEventDto e1 = new FundraisingEventDto(
+        var e1 = new FundraisingEventDto(
                 "Event_1",
                 1,
                 BigDecimal.ZERO,

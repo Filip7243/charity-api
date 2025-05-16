@@ -34,9 +34,9 @@ public class FundraisingEventService {
         log.info("Fundraising event created with ID: {}", newEvent.getId());
     }
 
-    FundraisingEvent getEventById(Long id) {
+    public FundraisingEvent getEventById(Long id) {
         if (id == null) {
-            log.info("Fundraising event with ID is null");
+            log.info("Event ID is null!");
             return null;
         }
 
