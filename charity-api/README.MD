@@ -1,3 +1,7 @@
+# RESTful API for Charity Fundraising
+This project is a RESTful API for managing charity fundraising events, collection boxes, and generating reports. 
+It is built using Spring Boot and follows a microservices architecture.
+
 ## 🚀 Running the Application
 
 Follow the steps below to start all microservices locally (without Docker).
@@ -23,35 +27,35 @@ Tip: 💡 Open a new terminal for each service.
 
 ```bash
 cd discovery-server
-./mvnw spring-boot:run
+../mvnw spring-boot:run
 ```
 
 #### 3.2 Gateway
 
 ```bash
 cd api-gateway
-./mvnw spring-boot:run
+../mvnw spring-boot:run
 ```
 
 #### 3.3 Charity Service
 
 ```bash
 cd charity-service
-./mvnw spring-boot:run
+../mvnw spring-boot:run
 ```
 
 #### 3.4 Report Service
 
 ```bash
 cd report-service
-./mvnw spring-boot:run
+../mvnw spring-boot:run
 ```
 
 #### 3.5 Currency Service
 
 ```bash
 cd currency-service
-./mvnw spring-boot:run
+../mvnw spring-boot:run
 ```
 
 ### 4. Open H2 console
@@ -69,10 +73,10 @@ You can also run the entire microservices architecture using **Docker Compose**.
 
 ### 1. Build and start all containers
 
-In the root directory of the project, run:
+In the root directory of the project (charity-api), run:
 
 ```bash
-./mvnw clean install
+./mvnw clean package
 ```
 
 Make sure Docker and Docker Compose are installed. Then, from the project root:

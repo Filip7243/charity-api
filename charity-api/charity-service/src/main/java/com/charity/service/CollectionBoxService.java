@@ -50,7 +50,7 @@ public class CollectionBoxService {
     public List<CollectionBoxDto> getAllCollectionBoxes() {
         log.info("Fetching all collection boxes");
 
-        var boxes = collectionBoxRepository.findAll();
+        var boxes = collectionBoxRepository.findAllWithMoneys();
 
         return boxes.stream()
                 .map(this::mapToDto)
@@ -60,7 +60,7 @@ public class CollectionBoxService {
     public CollectionBoxDto getCollectionBoxById(Long id) {
         log.info("Fetching box with ID: {}", id);
 
-        var box = collectionBoxRepository.findById(id)
+        var box = collectionBoxRepository.findByIdWithMoneys(id)
                 .orElseThrow(() -> {
                     log.error("Collection box with ID {} not found", id);
                     return new ResourceNotFound("Collection box not found");
