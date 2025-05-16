@@ -88,12 +88,6 @@ docker-compose up --build
 🕒 Important: After all services start, wait a few seconds for them to register with the Eureka server. The system might
 take a short moment to stabilize.
 
-### 2. Access the services
-
-- **API Gateway**: http://localhost:8080/
-- **Eureka Server**: http://localhost:8761/
-- **Eureka Server Health**: http://localhost:8761/actuator/health
-
 ### ⚠️ H2 Console Note
 
 When running with Docker:
@@ -108,6 +102,13 @@ If you need database access for testing or debugging, consider running the servi
 ```
 docker-compose down
 ```
+
+## Access the services
+
+- **API Gateway**: http://localhost:8080/
+- **Eureka Server**: http://localhost:8761/
+- **Eureka Server Health**: http://localhost:8761/actuator/health
+
 
 ## 📘 API Endpoints
 
