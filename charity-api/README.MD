@@ -99,7 +99,7 @@ take a short moment to stabilize.
 When running with Docker:
 
 - H2 Console is not available in the browser.
-- The in-memory H2 databases exist only inside each container and are not accessible externally.
+- The in-memory H2 database exists only inside the container and is not accessible externally.
 
 If you need database access for testing or debugging, consider running the services manually without Docker.
 
