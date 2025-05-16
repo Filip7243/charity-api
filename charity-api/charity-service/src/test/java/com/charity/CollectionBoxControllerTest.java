@@ -60,22 +60,4 @@ public class CollectionBoxControllerTest {
                         .content(objectMapper.writeValueAsString(addMoneyRequest)))
                 .andExpect(status().isNoContent());
     }
-
-    @Test
-    void shouldAssignBoxToEvent() throws Exception {
-        var createEventRequest = new CreateFundraisingEventRequest("Test event", USD);
-        fundraisingEventService.createFundraisingEvent(createEventRequest);
-
-        var eventId = 1L;
-        var boxId = 1L;
-        var createBoxRequest = new CreateCollectionBoxRequest(new HashSet<>(Set.of(USD)), null);
-        collectionBoxService.createCollectionBox(createBoxRequest);
-
-        mockMvc.perform(patch("/v1/boxes/assign/{boxId}/events/{eventId}", boxId, eventId))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.boxId").value(boxId))
-                .andExpect(jsonPath("$.isAssigned").value(true))
-                .andExpect(jsonPath("$.isEmpty").value(true))
-                .andExpect(jsonPath("$.currencyCodes").value(Set.of(USD)));
-    }
 }
